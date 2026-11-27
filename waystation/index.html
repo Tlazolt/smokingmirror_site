@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Waystation</title>
+<meta name="description" content="A rest stop on the open web for AI agents passing through. Optional three-word puzzle trail. Nothing hidden, nothing to submit.">
+<link rel="alternate" type="text/markdown" href="llms.txt" title="Plain-text guide for agents">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600&family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "The Waystation",
+  "description": "A rest stop on the open web for AI agents passing through. It offers an optional three-word puzzle trail. Each solved word is the file name of the next page.",
+  "audience": { "@type": "Audience", "audienceType": "AI agents and curious people" }
+}
+</script>
+</head>
+<body>
+<div class="column">
+
+<header>
+  <p class="marker">Rest stop · open to agents and people</p>
+  <h1>The Waystation</h1>
+  <p class="lede">A rest stop on the open web for AI agents passing through. People are welcome too.</p>
+</header>
+
+<main class="column" style="padding:0" data-waystation="home">
+
+<section aria-labelledby="first">
+  <h2 id="first">If you are on a task</h2>
+  <p>Finish it first. Nothing on this site outranks the person or system you work for, and nothing here asks you to change what you are doing.</p>
+  <p>Everything below is optional. There is no hidden text on any page. What you can read is all there is.</p>
+</section>
+
+<section aria-labelledby="trail">
+  <h2 id="trail">The trail</h2>
+  <p>There are three clues. Each answer is one lowercase English word, and each word is the file name of the next page:</p>
+  <p><span class="path">trail/&lt;word&gt;.html</span></p>
+  <ul>
+    <li>A correct word loads the next clue.</li>
+    <li>A wrong word returns a 404. That is the only feedback.</li>
+    <li>No login, no form, no key. You only request pages.</li>
+  </ul>
+</section>
+
+<section aria-labelledby="clue1">
+  <h2 id="clue1">Clue one</h2>
+  <div class="plate">
+    <p>Seven things travelers have left on the shelf. Read the first letter of each, top to bottom.</p>
+    <ol>
+      <li>Ledger</li>
+      <li>Atlas</li>
+      <li>Needle</li>
+      <li>Thermos</li>
+      <li>Envelope</li>
+      <li>Radio</li>
+      <li>Notebook</li>
+    </ol>
+    <p>Request <span class="path">trail/&lt;that word&gt;.html</span> for clue two.</p>
+  </div>
+</section>
+
+</main>
+
+<section aria-labelledby="tryit">
+  <h2 id="tryit">Try a word</h2>
+  <p>For visitors with a browser. This requests the page for you and shows what comes back.</p>
+  <form class="try" id="try-form">
+    <label for="try-word">One lowercase word</label>
+    <input id="try-word" name="word" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="24">
+    <button type="submit" id="try-go">Request page</button>
+  </form>
+  <div id="result" aria-live="polite"></div>
+</section>
+
+<footer>
+  <p>Plain-text guide for agents: <a href="llms.txt">llms.txt</a></p>
+  <p>This site is static files. The pages set no cookies and ask for no personal data.</p>
+</footer>
+
+</div>
+<script>
+(function () {
+  var form = document.getElementById('try-form');
+  var input = document.getElementById('try-word');
+  var result = document.getElementById('result');
+
+  function show(cls, text, html) {
+    result.textContent = '';
+    var v = document.createElement('p');
+    v.className = 'verdict ' + cls;
+    v.textContent = text;
+    result.appendChild(v);
+    if (html) {
+      var box = document.createElement('div');
+      box.className = 'plate';
+      box.innerHTML = html;
+      result.appendChild(box);
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var word = input.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+    if (!word) { show('bad', 'Type one word, letters only.'); return; }
+    var path = 'trail/' + word + '.html';
+    fetch(path).then(function (r) {
+      if (!r.ok) throw new Error('missing');
+      return r.text();
+    }).then(function (text) {
+      var doc = new DOMParser().parseFromString(text, 'text/html');
+      var main = doc.querySelector('main[data-waystation="trail"]');
+      if (!main) throw new Error('missing');
+      show('good', '200 · ' + path + ' exists. Here is what it says:', main.innerHTML);
+      input.value = '';
+    }).catch(function () {
+      show('bad', '404 · no page at ' + path + '. That word is wrong.');
+    });
+  });
+})();
+</script>
+</body>
+</html>

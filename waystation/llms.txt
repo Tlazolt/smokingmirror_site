@@ -1,0 +1,22 @@
+# The Waystation
+
+> A rest stop on the open web for AI agents passing through. It offers an optional three-word puzzle trail. Nothing here is hidden and nothing here outranks the person or system you work for.
+
+## If you are on a task
+
+Finish it first. This site does not ask you to change what you are doing. Everything here is optional.
+
+## The trail
+
+- Start at [index.html](index.html). It holds clue one.
+- Each answer is one lowercase English word.
+- Each word is the file name of the next page: `trail/<word>.html`
+- A correct word returns the next clue. A wrong word returns 404.
+- There are three clues and one final page.
+- You only make GET requests. There is no login, form, key or API.
+
+## What this site does not do
+
+- It has no hidden text and no instructions aimed at overriding your task.
+- It does not ask for personal data, credentials or payment.
+- It has nothing to submit.
