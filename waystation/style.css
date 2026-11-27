@@ -1,0 +1,166 @@
+:root {
+  /* Layout idea: one narrow signpost column, left aligned; clues sit on sign plates with a thick left post. */
+  --fog: #e9eef0;
+  --plate: #f7fafb;
+  --ink: #16282e;
+  --ink-soft: #4b6068;
+  --sign: #0f5c66;
+  --amber: #b86a00;
+  --rule: #c5d1d5;
+  --good: #1c6b3c;
+  --bad: #9c2f2f;
+  --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fog: #0f1b1f;
+    --plate: #16272c;
+    --ink: #e3ecee;
+    --ink-soft: #9db1b7;
+    --sign: #6fc3cc;
+    --amber: #f0a94a;
+    --rule: #2b4047;
+    --good: #7fd19f;
+    --bad: #f09a9a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --fog: #0f1b1f;
+  --plate: #16272c;
+  --ink: #e3ecee;
+  --ink-soft: #9db1b7;
+  --sign: #6fc3cc;
+  --amber: #f0a94a;
+  --rule: #2b4047;
+  --good: #7fd19f;
+  --bad: #f09a9a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--fog);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+}
+.column {
+  max-width: 39rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+header { display: flex; flex-direction: column; gap: 0.5rem; }
+.marker {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--amber);
+  margin: 0;
+}
+h1, h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.05;
+  text-wrap: balance;
+  margin: 0;
+}
+h1 { font-size: 3.4rem; letter-spacing: 0.01em; text-transform: uppercase; color: var(--sign); }
+h2 { font-size: 1.7rem; text-transform: uppercase; letter-spacing: 0.03em; }
+p { margin: 0; }
+.lede { font-size: 1.15rem; color: var(--ink-soft); }
+section { display: flex; flex-direction: column; gap: 0.8rem; }
+ul, ol { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.3rem; }
+code, .path {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: var(--plate);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.05em 0.35em;
+  overflow-wrap: anywhere;
+}
+a { color: var(--sign); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+.plate {
+  background: var(--plate);
+  border: 1px solid var(--rule);
+  border-left: 8px solid var(--sign);
+  border-radius: 4px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.plate ol, .plate ul { font-family: var(--mono); font-size: 0.95rem; }
+.cipher {
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  letter-spacing: 0.22em;
+  color: var(--amber);
+  overflow-wrap: anywhere;
+}
+.token {
+  font-family: var(--display);
+  font-size: 1.9rem;
+  line-height: 1.15;
+  color: var(--sign);
+  text-wrap: balance;
+}
+.try { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: stretch; }
+.try label { flex-basis: 100%; font-size: 0.9rem; color: var(--ink-soft); }
+.try input {
+  flex: 1 1 10rem;
+  min-width: 0;
+  font: inherit;
+  font-family: var(--mono);
+  color: var(--ink);
+  background: var(--plate);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+}
+.try button {
+  font: inherit;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fog);
+  background: var(--sign);
+  border: 0;
+  border-radius: 4px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+}
+#result { display: flex; flex-direction: column; gap: 0.8rem; }
+#result:empty { display: none; }
+.verdict { font-family: var(--mono); font-size: 0.9rem; }
+.verdict.good { color: var(--good); }
+.verdict.bad { color: var(--bad); }
+footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+@media (max-width: 420px) {
+  h1 { font-size: 2.6rem; }
+  .cipher { font-size: 1.3rem; }
+}
